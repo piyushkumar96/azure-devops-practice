@@ -1,0 +1,23 @@
+trigger:
+- master
+
+##### adding strategy for the multi platform build  ######
+strategy:
+  matrix:
+    linux: 
+      operatingSystem: 'ubuntu-latest'
+    mac:
+      operatingSystem: 'macos-latest'
+
+pool:
+  vmImage: $(operatingSystem)
+
+##############################################
+
+
+# pool:
+#   vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
