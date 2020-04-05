@@ -13,21 +13,41 @@ stages:
           - bash: echo Build FirstJob!
           - bash: which bash
           - bash: echo $(PipelineLevelVariable)
-      - job: SecondJob
-        steps:
-          - bash: echo Build SecondJob!
-  - stage: DevDeploy
-    variables:
-      environment: Dev
-    dependsOn: Build
-    jobs: 
-      - job: FirstDevJob
-        steps:
-          - bash: echo $(environment)Deploy FirstJob!
-          - script: which script
-      - job: SecondDevJob
-        steps:
-          - bash: echo DevDeploy SecondJob!
+          - bash: echo $(Build.BuildNumber)
+          - bash: echo $(Build.BuildId)
+          - bash: echo $(Build.SourceBranchName)
+          - bash: echo $(Build.SourcesDirectory)
+          - bash: echo $(System.DefaultWorkingDirectory)
+          - bash: ls -R $(System.DefaultWorkingDirectory)
+          - bash: echo $(Build.ArtifactStagingDirectory)
+          - bash: java -version
+          - bash: node --version
+          - bash: python --version 
+          - bash: mvn -version 
+          - bash: ls -R $(Build.ArtifactStagingDirectory)
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              Contents: |
+                **/*.yaml
+                **/*.tf
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          - bash: ls -R $(Build.ArtifactStagingDirectory)
+  #     - job: SecondJob
+  #       steps:
+  #         - bash: echo Build SecondJob!
+  # - stage: DevDeploy
+  #   variables:
+  #     environment: Dev
+  #   dependsOn: Build
+  #   jobs: 
+  #     - job: FirstDevJob
+  #       steps:
+  #         - bash: echo $(environment)Deploy FirstJob!
+  #         - script: which script
+  #     - job: SecondDevJob
+  #       steps:
+  #         - bash: echo DevDeploy SecondJob!
   # - stage: QADeploy
   #   dependsOn: Build
   #   jobs:
