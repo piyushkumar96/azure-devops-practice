@@ -1,0 +1,25 @@
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build_and_Push
+  displayName: Build and Push image
+  jobs:  
+  - job: Build_and_Push
+    displayName: Build and Push Job
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'piyushkumar96-docker-hub'
+        repository: 'piyushkumar96/currency-exchange-devops'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
