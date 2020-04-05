@@ -2,22 +2,43 @@ trigger:
 - master
 
 ##### adding strategy for the multi platform build  ######
-strategy:
-  matrix:
-    linux: 
-      operatingSystem: 'ubuntu-latest'
-    mac:
-      operatingSystem: 'macos-latest'
 
-pool:
-  vmImage: $(operatingSystem)
+# strategy:
+#   matrix:
+#     linux: 
+#       operatingSystem: 'ubuntu-latest'
+#     mac:
+#       operatingSystem: 'macos-latest'
+
+# pool:
+#   vmImage: $(operatingSystem)
 
 ##############################################
 
+pool:
+  vmImage: 'ubuntu-latest'
 
-# pool:
-#   vmImage: 'ubuntu-latest'
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+  - stage: Build
+    jobs:
+      - job:
+        steps:
+          - bash: echo Build is created!
+  - stage: DevDeploy
+    jobs:
+      - deployment: DevDeployJob
+        environment: DEV
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - bash: echo deploy to Dev!
+  - stage: QADeploy
+    jobs:
+      - deployment: QADeploy
+        environment: QA
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - bash: echo deploy to QA!
