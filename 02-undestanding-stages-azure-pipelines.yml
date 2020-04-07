@@ -12,7 +12,7 @@ stages:
         steps:
           - bash: echo Build FirstJob!
           - bash: which bash
-          # - bash: echo $(PipelineLevelVariable)
+          - bash: echo $(PipelineLevelVariable)
           # - bash: echo $(Build.BuildNumber)
           # - bash: echo $(Build.BuildId)
           # - bash: echo $(Build.SourceBranchName)
@@ -38,32 +38,32 @@ stages:
           #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           #     ArtifactName: 'backupArt'
           #     publishLocation: 'Container'
-      - job: SecondJob
-        steps:
-          - bash: echo Build SecondJob!
+      # - job: SecondJob
+      #   steps:
+      #     - bash: echo Build SecondJob!
   - stage: DevDeploy
-    # variables:
-    #   environment: Dev
+    variables:
+      environment: Dev
     dependsOn: Build
     jobs: 
       - job: FirstDevJob
         steps:
-          - bash: echo DevDeploy FirstJob!
+          - bash: echo $(environment)Deploy FirstJob!
           - script: which script
-      - job: SecondDevJob
-        steps:
-          - bash: echo DevDeploy SecondJob!
-  - stage: QADeploy
-    dependsOn: Build
-    jobs:
-      - job: FirstQAJob
-        steps:
-          - bash: echo QADeploy FirstJob!
-  - stage: ProdDeploy
-    dependsOn: 
-    - DevDeploy
-    - QADeploy
-    jobs:
-      - job:  FirstProdDeployJob
-        steps:
-          - bash: echo ProdDeploy FirstJob!
+  #     - job: SecondDevJob
+  #       steps:
+  #         - bash: echo DevDeploy SecondJob!
+  # - stage: QADeploy
+  #   dependsOn: Build
+  #   jobs:
+  #     - job: FirstQAJob
+  #       steps:
+  #         - bash: echo QADeploy FirstJob!
+  # - stage: ProdDeploy
+  #   dependsOn: 
+  #   - DevDeploy
+  #   - QADeploy
+  #   jobs:
+  #     - job:  FirstProdDeployJob
+  #       steps:
+  #         - bash: echo ProdDeploy FirstJob!
