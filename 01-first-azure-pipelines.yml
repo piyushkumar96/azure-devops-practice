@@ -20,21 +20,21 @@ jobs:
       displayName: 'Run the multi-line script'
   - job: Job2
     # dependsOn is break the parallel execution of Jobs. Now the Job2 will on run after Job1 is completed
-    #dependsOn: Job1
+    dependsOn: Job1
     steps:
       - script: echo Job2!
         displayName: 'Run a one-line script'
   - job: Job3
     # dependsOn is break the parallel execution of Jobs. Now the Job3 will on run after Job1 is completed
-    #dependsOn: Job1
+    dependsOn: Job1
     steps:
       - script: echo Job3!
         displayName: 'Run a one-line script'
   - job: Job4
     # dependsOn is break the parallel execution of Jobs. Now the Job4 will on run after Job2 and Job3 are completed
-    #dependsOn: 
-    #- Job2 
-    #- Job3  
+    dependsOn: 
+    - Job2 
+    - Job3  
     steps:
       - script: echo Job4!
         displayName: 'Run a one-line script'
