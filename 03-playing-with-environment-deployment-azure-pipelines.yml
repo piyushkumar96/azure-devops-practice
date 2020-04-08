@@ -21,7 +21,7 @@ pool:
 # stages:
 #   - stage: Build
 jobs:
-  - job:
+  - job: FirstJob
     steps:
       - bash: echo Build is created!
 #   - stage: DevDeploy
