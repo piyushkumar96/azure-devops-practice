@@ -18,7 +18,7 @@ strategy:
     ubuntu18:
       containerImage: ubuntu:18.04
 
-container: $[ variables['containerImage'] ]
+container: $(containerImage)
 
 steps:
 - script: printenv
